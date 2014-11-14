@@ -1,4 +1,4 @@
-require 'asciiart'
+require_relative 'config/application'
 
 =begin
 0. User login
@@ -19,31 +19,16 @@ class Controller
   def run
     @all_boots.each do |boot|
       boot.display_image
-      compare_guess
-      correct_answer?
-      update_correct_answers
+
+      boot.guess
+      boot.display_result_message
     end
   end
 
-  def display_image #Probably move to display later
-    boot_pic = AsciiArt.new(self.image)
-    puts boot_pic.to_ascii_art
-  end
 
-  def correct_answer?
-    guess = gets.chomp
-    guess == boot.name
-  end
-
-  def display_result_message
-    if compare_guess
-      puts "woohoooooo"
-    else
-      puts "sorry, the correct answer is #{boot.name}."
-    end
-  end
-
-  def update_correct_answers
-    @user.number_correct += 1 if correct_answer?
-  end
 end
+
+puts "Please enter your username"
+
+controller = Controller.new(gets.chomp)
+controller.run
